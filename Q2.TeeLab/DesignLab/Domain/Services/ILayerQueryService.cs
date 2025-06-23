@@ -4,5 +4,5 @@ namespace Q2.TeeLab.DesignLab.Domain.Services;
 
 public interface ILayerQueryService
 {
-    bool Handle(GetLayerByIdQuery query);
+    Task<bool> Handle(GetLayerByIdQuery query);
 }

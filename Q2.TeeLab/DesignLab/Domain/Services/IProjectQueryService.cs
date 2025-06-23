@@ -5,6 +5,6 @@ namespace Q2.TeeLab.DesignLab.Domain.Services;
 
 public interface IProjectQueryService
 {
-    Project Handle(GetProjectByIdQuery query);
-    List<Project> Handle(GetProjectsByUserIdQuery query);
+    Task<Project> Handle(GetProjectByIdQuery query);
+    Task<List<Project>> Handle(GetProjectsByUserIdQuery query);
 }
