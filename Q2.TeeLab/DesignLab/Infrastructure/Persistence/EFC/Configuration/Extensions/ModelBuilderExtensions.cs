@@ -52,22 +52,42 @@ public static class ModelBuilderExtensions
         entity.Property(l => l.Id)
             .HasConversion(l => l.Id.ToString(), str => new LayerId(str))
             .IsRequired().ValueGeneratedOnAdd();
-        
+
         entity.Property(l => l.ProjectId)
             .HasConversion(p => p.Id.ToString(), str => new ProjectId(str))
             .IsRequired();
-        
+
         entity.Property(l => l.X).IsRequired();
         entity.Property(l => l.Y).IsRequired();
         entity.Property(l => l.Z).IsRequired();
-        
+
         entity.Property(l => l.Opacity).IsRequired();
         entity.Property(l => l.IsVisible).IsRequired();
-        
+
         entity.Property(l => l.CreatedAt).IsRequired().ValueGeneratedOnAdd();
         entity.Property(l => l.UpdatedAt).IsRequired().ValueGeneratedOnAddOrUpdate();
-        
-        
-        
+
+        // Image Layer specific properties
+        var imageLayer = builder.Entity<ImageLayer>();
+        imageLayer.Property(il => il.ImageUrl)
+            .IsRequired()
+            .HasConversion(uri => uri.ToString(), str => new Uri(str));
+        imageLayer.Property(il => il.Width).IsRequired();
+        imageLayer.Property(il => il.Height).IsRequired();
+
+        // Text Layer specific properties
+
+        var textLayer = builder.Entity<TextLayer>();
+        textLayer.Property(tl => tl.Text)
+            .IsRequired()
+            .HasMaxLength(500);
+
+        textLayer.Property(tl => tl.FontSize).IsRequired();
+        textLayer.Property(tl => tl.FontColor)
+            .IsRequired();
+        textLayer.Property(tl => tl.FontFamily).IsRequired();
+        textLayer.Property(tl => tl.IsBold).IsRequired();
+        textLayer.Property(tl => tl.IsUnderlined).IsRequired();
+        textLayer.Property(tl => tl.IsItalic).IsRequired();
     }
 }
