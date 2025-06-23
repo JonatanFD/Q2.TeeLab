@@ -1,0 +1,6 @@
+@Q2.TeeLab_HostAddress = http://localhost:5288
+
+GET {{Q2.TeeLab_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
