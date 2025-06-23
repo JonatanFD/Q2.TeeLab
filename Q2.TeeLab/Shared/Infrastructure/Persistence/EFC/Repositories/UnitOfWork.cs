@@ -1,4 +1,5 @@
 using Q2.TeeLab.Shared.Domain.Repositories;
+using Q2.TeeLab.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 namespace Q2.TeeLab.Shared.Infrastructure.Persistence.EFC.Repositories;
 

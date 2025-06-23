@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Q2.TeeLab.Shared.Domain.Repositories;
+using Q2.TeeLab.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 namespace Q2.TeeLab.Shared.Infrastructure.Persistence.EFC.Repositories;
 
@@ -19,7 +21,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         Context = context;
     }
-
+    
     /// <inheritdoc />
     public async Task AddAsync(TEntity entity)
     {
@@ -27,7 +29,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     }
 
     /// <inheritdoc />
-    public async Task<TEntity?> FindByIdAsync(int id)
+    public async Task<TEntity?> FindByIdAsync(Guid id)
     {
         return await Context.Set<TEntity>().FindAsync(id);
     }
