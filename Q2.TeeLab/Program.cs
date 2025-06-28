@@ -21,6 +21,10 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Add Swagger services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 // Database Configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -57,6 +61,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Q2.TeeLab API V1");
+        c.RoutePrefix = string.Empty; // This makes Swagger UI available at the root URL
+    });
 }
 
 app.UseHttpsRedirection();
