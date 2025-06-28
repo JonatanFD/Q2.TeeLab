@@ -12,7 +12,7 @@ public class TextLayer : Layer
     public bool IsUnderlined { get; private set; }
     public bool IsItalic { get; private set; }
     
-    public TextLayer(string text, string fontFamily, int fontSize, string fontColor, bool isBold, bool isUnderlined, bool isItalic, int z) : base(ELayerType.Text, z)
+    public TextLayer(ProjectId projectId, string text, string fontFamily, int fontSize, string fontColor, bool isBold, bool isUnderlined, bool isItalic, int z) : base(projectId, ELayerType.Text, z)
     {
         Text = text;
         FontSize = fontSize;

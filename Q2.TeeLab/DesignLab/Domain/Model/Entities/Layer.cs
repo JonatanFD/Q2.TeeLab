@@ -17,10 +17,10 @@ public abstract class Layer
     public DateTime UpdatedAt { get; private set; }
 
     
-    public Layer(ELayerType type, int z)
+    public Layer(ProjectId projectId, ELayerType type, int z)
     {
         Id = new LayerId();
-        ProjectId = new ProjectId();
+        ProjectId = projectId;
         X = 0;
         Y = 0;
         Z = z;

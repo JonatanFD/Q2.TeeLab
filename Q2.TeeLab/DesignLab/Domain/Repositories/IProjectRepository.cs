@@ -5,5 +5,6 @@ namespace Q2.TeeLab.DesignLab.Domain.Repositories;
 
 public interface IProjectRepository : IBaseRepository<Project>
 {
-    
+    Task<Project?> FindByIdWithLayersAsync(Guid id);
+    Task<IEnumerable<Project>> FindByUserIdAsync(Guid userId);
 }

@@ -8,7 +8,7 @@ public class ImageLayer : Layer
     public float Width { get; private set; }
     public float Height { get; private set; }
 
-    public ImageLayer(string imageUrl, float width, float height, int z) : base(ELayerType.Image, z)
+    public ImageLayer(ProjectId projectId, string imageUrl, float width, float height, int z) : base(projectId, ELayerType.Image, z)
     {
         ImageUrl = new Uri(imageUrl);
         Width = width;

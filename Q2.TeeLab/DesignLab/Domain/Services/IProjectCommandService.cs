@@ -9,4 +9,7 @@ public interface IProjectCommandService
     Task<Project> Handle(CreateProjectCommand command);
     Task<LayerId> Handle(AddImageLayerToProjectCommand command);
     Task<LayerId> Handle(AddTextLayerToProjectCommand command);
+    Task<bool> Handle(RemoveLayerFromProjectCommand command);
+    Task<bool> Handle(SendLayerToBackInProjectCommand command);
+    Task<bool> DeleteAsync(ProjectId projectId);
 }
