@@ -15,18 +15,11 @@ namespace Q2.TeeLab.OrderProcessing.Interfaces.REST;
 [Route("api/v1/order-processing/carts")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Order Processing - Shopping Carts")]
-public class CartController : BaseApiController
+public class CartController(
+     ICartCommandService cartCommandService,
+     ICartQueryService cartQueryService
+) : BaseApiController
 {
-    private readonly ICartCommandService _cartCommandService;
-    private readonly ICartQueryService _cartQueryService;
-
-    public CartController(
-        ICartCommandService cartCommandService,
-        ICartQueryService cartQueryService)
-    {
-        _cartCommandService = cartCommandService;
-        _cartQueryService = cartQueryService;
-    }
 
     [HttpGet("users/{userId:guid}")]
     [SwaggerOperation(
@@ -40,7 +33,7 @@ public class CartController : BaseApiController
         try
         {
             var query = new GetCartByUserIdQuery(new UserId(userId));
-            var cart = await _cartQueryService.Handle(query);
+            var cart = await cartQueryService.Handle(query);
 
             if (cart == null)
             {
@@ -70,7 +63,7 @@ public class CartController : BaseApiController
         try
         {
             var command = AddItemToCartCommandAssembler.ToCommand(new UserId(userId), resource);
-            await _cartCommandService.Handle(command);
+            await cartCommandService.Handle(command);
 
             return HandleResult(true, "Item added to cart successfully", "Failed to add item to cart");
         }
@@ -98,7 +91,7 @@ public class CartController : BaseApiController
         try
         {
             var command = UpdateCartItemCommandAssembler.ToCommand(new UserId(userId), resource);
-            await _cartCommandService.Handle(command);
+            await cartCommandService.Handle(command);
 
             return HandleResult(true, "Item quantity updated successfully", "Failed to update item quantity");
         }
@@ -124,7 +117,7 @@ public class CartController : BaseApiController
         try
         {
             var command = new RemoveItemFromCartCommand(new UserId(userId), new Domain.Model.ValueObjects.ProductId(productId));
-            await _cartCommandService.Handle(command);
+            await cartCommandService.Handle(command);
 
             return HandleResult(true, "Item removed from cart successfully", "Failed to remove item from cart");
         }
@@ -146,7 +139,7 @@ public class CartController : BaseApiController
         try
         {
             var command = new ClearCartCommand(new UserId(userId));
-            await _cartCommandService.Handle(command);
+            await cartCommandService.Handle(command);
 
             return HandleResult(true, "Cart cleared successfully", "Failed to clear cart");
         }
@@ -170,7 +163,7 @@ public class CartController : BaseApiController
         try
         {
             var command = ApplyDiscountCommandAssembler.ToCommand(new UserId(userId), resource);
-            await _cartCommandService.Handle(command);
+            await cartCommandService.Handle(command);
 
             return HandleResult(true, "Discount applied to cart successfully", "Failed to apply discount to cart");
         }
