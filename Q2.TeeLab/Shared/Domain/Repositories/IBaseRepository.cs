@@ -7,7 +7,8 @@
 ///     This interface defines the basic CRUD operations for all repositories
 /// </remarks>
 /// <typeparam name="TEntity">The Entity Type</typeparam>
-public interface IBaseRepository<TEntity>
+/// <typeparam name="TId">The Entity ID Type</typeparam>
+public interface IBaseRepository<TEntity, TId>
 {
     /// <summary>
     ///     Add entity to the repository
@@ -21,7 +22,7 @@ public interface IBaseRepository<TEntity>
     /// </summary>
     /// <param name="id">The Entity ID to Find</param>
     /// <returns>Entity object if found</returns>
-    Task<TEntity?> FindByIdAsync(Guid id);
+    Task<TEntity?> FindByIdAsync(TId id);
 
     /// <summary>
     ///     Update entity
@@ -40,4 +41,12 @@ public interface IBaseRepository<TEntity>
     /// </summary>
     /// <returns>An Enumerable containing all entity objects</returns>
     Task<IEnumerable<TEntity>> ListAsync();
+}
+
+/// <summary>
+///     Base repository interface for entities with Guid IDs (for backward compatibility)
+/// </summary>
+/// <typeparam name="TEntity">The Entity Type</typeparam>
+public interface IBaseRepository<TEntity> : IBaseRepository<TEntity, Guid>
+{
 }

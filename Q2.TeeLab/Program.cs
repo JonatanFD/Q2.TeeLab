@@ -43,6 +43,21 @@ builder.Services.AddScoped<IProjectQueryService, ProjectQueryService>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ILayerRepository, LayerRepository>();
 
+// Order Processing Bounded Context Services
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Application.Internal.CommandServices.IOrderCommandService, Q2.TeeLab.OrderProcessing.Application.Internal.CommandServices.OrderCommandService>();
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Application.Internal.CommandServices.ICartCommandService, Q2.TeeLab.OrderProcessing.Application.Internal.CommandServices.CartCommandService>();
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Application.Internal.QueryServices.IOrderQueryService, Q2.TeeLab.OrderProcessing.Application.Internal.QueryServices.OrderQueryService>();
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Application.Internal.QueryServices.ICartQueryService, Q2.TeeLab.OrderProcessing.Application.Internal.QueryServices.CartQueryService>();
+
+// Order Processing Repositories
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Domain.Repositories.IOrderRepository, Q2.TeeLab.OrderProcessing.Infrastructure.Persistence.EFC.Repositories.OrderRepository>();
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Domain.Repositories.ICartRepository, Q2.TeeLab.OrderProcessing.Infrastructure.Persistence.EFC.Repositories.CartRepository>();
+
+// Order Processing Domain Services
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Domain.Services.IOrderManagementService, Q2.TeeLab.OrderProcessing.Infrastructure.Services.OrderManagementService>();
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Domain.Services.IProductCatalogService, Q2.TeeLab.OrderProcessing.Infrastructure.Services.ProductCatalogService>();
+builder.Services.AddScoped<Q2.TeeLab.OrderProcessing.Domain.Services.IPaymentServicePort, Q2.TeeLab.OrderProcessing.Infrastructure.Services.PaymentService>();
+
 // Add Mediator Injection Configuration
 builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
 
