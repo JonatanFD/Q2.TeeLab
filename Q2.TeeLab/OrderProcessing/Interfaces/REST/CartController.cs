@@ -14,7 +14,7 @@ namespace Q2.TeeLab.OrderProcessing.Interfaces.REST;
 [ApiController]
 [Route("api/v1/order-processing/carts")]
 [Produces(MediaTypeNames.Application.Json)]
-[SwaggerTag("Order Processing - Shopping Carts")]
+[SwaggerTag("Order Processing")]
 public class CartController(
      ICartCommandService cartCommandService,
      ICartQueryService cartQueryService
@@ -25,7 +25,7 @@ public class CartController(
     [SwaggerOperation(
         Summary = "Get user's cart",
         Description = "Get the shopping cart for a specific user",
-        Tags = new[] { "Order Processing - Shopping Carts" })]
+        Tags = new[] { "Order Processing" })]
     [SwaggerResponse(200, "Cart found", typeof(OrderApiResponse<CartResource>))]
     [SwaggerResponse(404, "Cart not found", typeof(OrderApiResponse<CartResource>))]
     public async Task<ActionResult<OrderApiResponse<CartResource>>> GetCartByUserId(Guid userId)
@@ -53,7 +53,7 @@ public class CartController(
     [SwaggerOperation(
         Summary = "Add item to cart",
         Description = "Add a product to the user's cart",
-        Tags = new[] { "Order Processing - Shopping Carts" })]
+        Tags = new[] { "Order Processing" })]
     [SwaggerResponse(200, "Item added successfully", typeof(OrderApiResponse<bool>))]
     [SwaggerResponse(400, "Bad request", typeof(OrderApiResponse<bool>))]
     public async Task<ActionResult<OrderApiResponse<bool>>> AddItemToCart(
@@ -81,7 +81,7 @@ public class CartController(
     [SwaggerOperation(
         Summary = "Update cart item quantity",
         Description = "Update the quantity of an item in the user's cart",
-        Tags = new[] { "Order Processing - Shopping Carts" })]
+        Tags = new[] { "Order Processing" })]
     [SwaggerResponse(200, "Item quantity updated successfully", typeof(OrderApiResponse<bool>))]
     [SwaggerResponse(400, "Bad request", typeof(OrderApiResponse<bool>))]
     public async Task<ActionResult<OrderApiResponse<bool>>> UpdateCartItemQuantity(
@@ -109,7 +109,7 @@ public class CartController(
     [SwaggerOperation(
         Summary = "Remove item from cart",
         Description = "Remove a product from the user's cart",
-        Tags = new[] { "Order Processing - Shopping Carts" })]
+        Tags = new[] { "Order Processing" })]
     [SwaggerResponse(200, "Item removed successfully", typeof(OrderApiResponse<bool>))]
     [SwaggerResponse(400, "Bad request", typeof(OrderApiResponse<bool>))]
     public async Task<ActionResult<OrderApiResponse<bool>>> RemoveItemFromCart(Guid userId, Guid productId)
@@ -131,7 +131,7 @@ public class CartController(
     [SwaggerOperation(
         Summary = "Clear cart",
         Description = "Remove all items from the user's cart",
-        Tags = new[] { "Order Processing - Shopping Carts" })]
+        Tags = new[] { "Order Processing" })]
     [SwaggerResponse(200, "Cart cleared successfully", typeof(OrderApiResponse<bool>))]
     [SwaggerResponse(400, "Bad request", typeof(OrderApiResponse<bool>))]
     public async Task<ActionResult<OrderApiResponse<bool>>> ClearCart(Guid userId)
@@ -153,7 +153,7 @@ public class CartController(
     [SwaggerOperation(
         Summary = "Apply discount to cart",
         Description = "Apply a discount to the user's cart",
-        Tags = new[] { "Order Processing - Shopping Carts" })]
+        Tags = new[] { "Order Processing" })]
     [SwaggerResponse(200, "Discount applied successfully", typeof(OrderApiResponse<bool>))]
     [SwaggerResponse(400, "Bad request", typeof(OrderApiResponse<bool>))]
     public async Task<ActionResult<OrderApiResponse<bool>>> ApplyDiscountToCart(
