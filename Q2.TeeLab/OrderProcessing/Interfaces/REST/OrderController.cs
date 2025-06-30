@@ -16,18 +16,12 @@ namespace Q2.TeeLab.OrderProcessing.Interfaces.REST;
 [Route("api/v1/order-processing/orders")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Order Processing - Orders")]
-public class OrderController : BaseApiController
+public class OrderController(
+    IOrderCommandService orderCommandService,
+    IOrderQueryService orderQueryService
+    ) : BaseApiController
 {
-    private readonly IOrderCommandService _orderCommandService;
-    private readonly IOrderQueryService _orderQueryService;
 
-    public OrderController(
-        IOrderCommandService orderCommandService,
-        IOrderQueryService orderQueryService)
-    {
-        _orderCommandService = orderCommandService;
-        _orderQueryService = orderQueryService;
-    }
 
     [HttpPost]
     [SwaggerOperation(
@@ -42,7 +36,7 @@ public class OrderController : BaseApiController
         try
         {
             var command = CreateOrderCommandAssembler.ToCommand(resource);
-            var order = await _orderCommandService.Handle(command);
+            var order = await orderCommandService.Handle(command);
             var orderResource = OrderResourceAssembler.ToResource(order);
 
             var response = OrderApiResponse<OrderResource>.SuccessResponse(orderResource, "Order created successfully");
@@ -74,7 +68,7 @@ public class OrderController : BaseApiController
         try
         {
             var query = new GetOrderByIdQuery(new Domain.Model.ValueObjects.OrderId(id));
-            var order = await _orderQueryService.Handle(query);
+            var order = await orderQueryService.Handle(query);
 
             if (order == null)
             {
@@ -104,7 +98,7 @@ public class OrderController : BaseApiController
         try
         {
             var query = new GetOrdersByUserIdQuery(new UserId(userId), page, pageSize);
-            var orders = await _orderQueryService.Handle(query);
+            var orders = await orderQueryService.Handle(query);
             var resources = orders.Select(OrderResourceAssembler.ToSummaryResource);
 
             return Ok(OrderApiResponse<IEnumerable<OrderSummaryResource>>.SuccessResponse(resources));
@@ -126,7 +120,7 @@ public class OrderController : BaseApiController
         try
         {
             var query = new GetActiveOrdersByUserIdQuery(new UserId(userId));
-            var orders = await _orderQueryService.Handle(query);
+            var orders = await orderQueryService.Handle(query);
             var resources = orders.Select(OrderResourceAssembler.ToSummaryResource);
 
             return Ok(OrderApiResponse<IEnumerable<OrderSummaryResource>>.SuccessResponse(resources));
@@ -149,7 +143,7 @@ public class OrderController : BaseApiController
         try
         {
             var command = new ConfirmOrderCommand(new OrderId(id));
-            var result = await _orderCommandService.Handle(command);
+            var result = await orderCommandService.Handle(command);
 
             if (!result)
             {
@@ -180,7 +174,7 @@ public class OrderController : BaseApiController
         try
         {
             var command = new CancelOrderCommand(new OrderId(id), reason);
-            var result = await _orderCommandService.Handle(command);
+            var result = await orderCommandService.Handle(command);
 
             if (!result)
             {
@@ -213,7 +207,7 @@ public class OrderController : BaseApiController
         try
         {
             var command = new UpdateOrderStatusCommand(new OrderId(id), Enum.Parse<OrderStatus>(resource.Status, true), resource.TrackingNumber);
-            var result = await _orderCommandService.Handle(command);
+            var result = await orderCommandService.Handle(command);
 
             if (!result)
             {
